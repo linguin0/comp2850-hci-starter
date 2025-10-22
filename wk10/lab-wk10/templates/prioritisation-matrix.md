@@ -101,4 +101,4 @@
 ---
 
 **Template source**: Week 10 Lab Pack, COMP2850 (University of Leeds)
-**Reference**: Week 10 Lab 1 (Activity 2), `sources/evaluation-metrics-quickref.md`
+**Reference**: Week 10 Lab 1 (Activity 2), `../../../references/evaluation-metrics-quickref.md`

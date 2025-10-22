@@ -20,7 +20,7 @@ paginate: true
 - Highlights inclusion gaps (parity issues, cognitive load)
 - Sets up Task 2 narrative (“we measured, we improved”)
 - References:
-  - `sources/evaluation-metrics-quickref.md`
+  - `../../references/evaluation-metrics-quickref.md`
   - Week 9 pilot artefacts (`data/metrics.csv`, notes)
 
 ---

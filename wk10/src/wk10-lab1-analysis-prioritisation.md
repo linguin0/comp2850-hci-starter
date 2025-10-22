@@ -23,7 +23,7 @@
 ## Before Lab: Required Reading (15 mins)
 
 📖 **Essential**:
-- Review `sources/evaluation-metrics-quickref.md` (formulas for median, MAD, error rates)
+- Review `../../references/evaluation-metrics-quickref.md` (formulas for median, MAD, error rates)
 - Review Week 9 Lab 2 findings (`wk09/lab-wk9/submission/task1-draft/05-findings.md`)
 - [Nielsen: Prioritizing Web Usability Issues](https://www.nngroup.com/articles/how-to-rate-the-severity-of-usability-problems/)
 
@@ -941,7 +941,7 @@ Next session:
 ## Further Reading & Resources
 
 ### Essential
-- Review `sources/evaluation-metrics-quickref.md` (formulas reference)
+- Review `../../references/evaluation-metrics-quickref.md` (formulas reference)
 - [GOV.UK: Using data to improve your service](https://www.gov.uk/service-manual/measuring-success/using-data-to-improve-your-service)
 
 ### Statistical Analysis

@@ -25,7 +25,7 @@
 
 📖 **Essential**:
 - Review your redesign brief (`wk10/lab-wk10/docs/redesign-brief.md`)
-- Review `sources/assistive-testing-checklist.md`
+- Review `../../references/assistive-testing-checklist.md`
 - [WCAG 2.2 Quick Reference](https://www.w3.org/WAI/WCAG22/quickref/) (sections 3.3, 4.1)
 
 📖 **Contextual**:
@@ -820,8 +820,8 @@ Next week:
 ## Further Reading & Resources
 
 ### Essential
-- Review `sources/assistive-testing-checklist.md`
-- Review `sources/evaluation-metrics-quickref.md`
+- Review `../../references/assistive-testing-checklist.md`
+- Review `../../references/evaluation-metrics-quickref.md`
 - [WCAG 2.2 Quick Reference](https://www.w3.org/WAI/WCAG22/quickref/)
 
 ### Accessible Error Handling

@@ -257,8 +257,8 @@ T2_edit,nojs,4,11200,2300,1,0.80,0.20
 - Week 10 Lab 2: `wk10/src/wk10-lab2-redesign-reverify-package.md`
 
 ### Supporting Guides
-- `sources/evaluation-metrics-quickref.md` - Median/MAD formulas
-- `sources/assistive-testing-checklist.md` - Step-by-step a11y testing
+- `../../references/evaluation-metrics-quickref.md` - Median/MAD formulas
+- `../../references/assistive-testing-checklist.md` - Step-by-step a11y testing
 - `wk09/lab-wk9/` - Week 9 pilot data and protocols
 
 ### Statistical Methods

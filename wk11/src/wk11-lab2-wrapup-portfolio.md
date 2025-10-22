@@ -627,7 +627,7 @@ This repository contains a **task manager web application** built with **Kotlin/
 
 - **HTMX**: [hypermedia.systems](https://hypermedia.systems/) (Carson Gross, 2023)
 - **WCAG 2.2**: [W3C Quick Reference](https://www.w3.org/WAI/WCAG22/quickref/)
-- **Privacy by Design**: [ICO Guide](https://ico.org.uk/for-organisations/uk-gdpr-guidance-and-resources/)
+- **Privacy by Design**: [ICO Guide](https://ico.org.uk/for-organisations/uk-gdpr-guidance-and-re../../references/)
 - **Ktor**: [ktor.io](https://ktor.io/)
 - **Pebble Templates**: [pebbletemplates.io](https://pebbletemplates.io/)
 

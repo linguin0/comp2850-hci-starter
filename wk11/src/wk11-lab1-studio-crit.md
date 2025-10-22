@@ -30,8 +30,8 @@
 - Review `analysis/summary.md` (before/after metrics)
 
 📖 **Quick reference**:
-- `sources/assistive-testing-checklist.md`
-- `sources/evaluation-metrics-quickref.md`
+- `../../references/assistive-testing-checklist.md`
+- `../../references/evaluation-metrics-quickref.md`
 
 ---
 
@@ -97,7 +97,7 @@ Maps to WCAG: 2.2 AA (demonstrating compliance)
 > **Good critique**:
 > - "The error message says 'Title required' but doesn't explain the max length constraint. Pilot P3 hit this—could you add that info?"
 >
-> 🔗 [Design Thinking: Critique vs Criticism](https://dschool.stanford.edu/resources/the-art-of-critique)
+> 🔗 [Design Thinking: Critique vs Criticism](https://dschool.stanford.edu/re../../references/the-art-of-critique)
 
 ### Evidence-Led Presentation
 

@@ -73,7 +73,7 @@ Be specific: cite files, line anchors, metrics.
 ---
 
 ## Resources
-- `sources/assistive-testing-checklist.md`
-- `sources/evaluation-metrics-quickref.md`
+- `../../references/assistive-testing-checklist.md`
+- `../../references/evaluation-metrics-quickref.md`
 - Resilient Web Design (reflection inspiration)
 
