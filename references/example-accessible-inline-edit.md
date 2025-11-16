@@ -59,7 +59,7 @@ post("/tasks/{id}/edit") {
     }
 
     repo.update(id, title)
-    val fragment = PebbleRender.render("tasks/item.peb", mapOf("task" to repo.get(id)))
+    val fragment = PebbleRender.render("tasks/_item.peb", mapOf("task" to repo.get(id)))
     val status = """<div id="status" hx-swap-oob="true">Updated "$title".</div>"""
     call.respondText(fragment + status, ContentType.Text.Html)
 }
