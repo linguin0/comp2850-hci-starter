@@ -23,7 +23,7 @@
       <p id="error-{{ task.id }}" class="visually-hidden" aria-live="assertive"></p>
     {% endif %}
 
-    <button type="submit">Save</button>
+    <button type="submit" aria-label="Save task: {{ task.title }}"">Save</button>
     <a href="/tasks"
        hx-get="/tasks/{{ task.id }}/view"
        hx-target="#task-{{ task.id }}"
