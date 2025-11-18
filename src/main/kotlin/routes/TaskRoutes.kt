@@ -103,11 +103,16 @@ fun Route.taskRoutes() {
             // Return HTML fragment for new task
             val fragment = """<li id="task-${task.id}">
                 <span>${task.title}</span>
+                <form action="/tasks/${task.id}/edit" method="get" style="display: inline;"
+                        hx-get="/tasks/${task.id}/edit"
+                        hx-target="#task-${task.id}"
+                        hx-swap="outerHTML">
                 <form action="/tasks/${task.id}/delete" method="post" style="display: inline;"
                       hx-post="/tasks/${task.id}/delete"
                       hx-target="#task-${task.id}"
                       hx-swap="outerHTML">
-                  <button type="submit" aria-label="Delete task: ${task.title}">Delete</button>
+                <button type="submit" aria-label="Edit task: ${task.title}">Edit</button>
+                <button type="submit" aria-label="Delete task: ${task.title}">Delete</button>
                 </form>
             </li>"""
 
