@@ -75,11 +75,11 @@ fun Route.taskRoutes() {
         template.evaluate(writer, model)
         call.respondText(writer.toString(), ContentType.Text.Html)
     }
-
     /**
      * POST /tasks - Add new task
      * Dual-mode: HTMX fragment or PRG redirect
      */
+
     post("/tasks") {
         val title = call.receiveParameters()["title"].orEmpty().trim()
 

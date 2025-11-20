@@ -1,1 +1,3 @@
 id,title,story_ref,story_type,need,type,severity,inclusion_risk,evidence,notes,candidate_fix
+1,Button contrast 1.11:1 (fails AA),audit#1,WCAG violation,Visibility,Accessibility, High,"Low vision,Colour-blind","axe-report.md; WCAG 1.4.3 (AA)",Pico.css default gray fails minimum contrast,true
+2,Accessible link text,audit#2,WCAG violation,Visibility,Accessibility,High,"SR,Keyvoard","axe-report.md; WCAG
