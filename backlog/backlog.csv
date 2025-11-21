@@ -1,1 +1,5 @@
-id,title,story_ref,story_type,need,type,severity,inclusion_risk,evidence,notes,candidate_fix
+id,title,story_ref,story_type,need,type,severity,inclusion_risk,evidence,notes,,priority,candidate_fix
+1,Button contrast 1.11:1 (fails AA),audit#1,WCAG violation,Visibility,Accessibility,High,"Low vision,Colour-blind","axe-report.md; WCAG 1.4.3 (AA)",Pico.css default gray fails minimum contrast,9,true
+2,'about' link has no discernible text (fails A),audit#2,WCAG violation,Visibility,Accessibility,High,"SR,Keyboard","axe-report.md; WCAG 2.4.4 (A)",Add text to that link,10,true
+3,'about' link has no discernible text (fails A),audit#4,WCAG violation,Visibility,Accessibility,High,"SR,Keyboard","wcag-checklist.md; WCAG 2.4.4 (A), WCAG 4.1.2",Add text to that link,10,true
+4,Outline focus faint on buttons (fails AA),audit#3,WCAG violation,Visibility,Accessibility,Medium,"Low vision,Colour-blind,Keyboard", "wcag-checklist.md; WCAG 2.4.7",Consider custom outline (3px solid),8,true

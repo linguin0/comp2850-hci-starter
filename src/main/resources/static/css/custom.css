@@ -50,7 +50,7 @@
    Focus Indicators (WCAG 2.4.7)
    ======================================== */
 *:focus {
-  outline: 3px solid #4A90E2;
+  outline: 3px solid #add8e6;
   outline-offset: 2px;
 }
 
@@ -60,7 +60,7 @@ a:focus,
 input:focus,
 textarea:focus,
 select:focus {
-  outline: 3px solid #4A90E2;
+  outline: 3px solid #add8e6;
   outline-offset: 2px;
 }
 
@@ -262,5 +262,5 @@ select:focus {
    Students will discover this with axe DevTools and fix in Week 7 Lab 2 */
 button[type="submit"],
 button {
-  color: #6c757d;
+  color: #ffffff;
 }

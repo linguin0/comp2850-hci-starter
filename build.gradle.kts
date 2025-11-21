@@ -40,6 +40,7 @@ dependencies {
     testImplementation("io.ktor:ktor-server-tests-jvm:$ktorVersion")
     testImplementation("io.ktor:ktor-client-content-negotiation-jvm:$ktorVersion")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit5:2.2.21")
+    implementation(kotlin("stdlib-jdk8"))
 }
 
 application {

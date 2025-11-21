@@ -1,4 +1,5 @@
 {% extends "_layout/base.peb" %}
+
 {% block content %}
 <h1>Tasks</h1>
 
@@ -25,8 +26,9 @@
       {% else %}
         {% include "tasks/_item.peb" with {"task": task} %}
       {% endif %}
+    {% else %}
+      <li>No tasks yet. Add one above!</li>
     {% endfor %}
   </ul>
 </section>
 {% endblock %}
-

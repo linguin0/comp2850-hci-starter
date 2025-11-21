@@ -19,7 +19,7 @@ import java.io.StringWriter
  */
 
 // Week 7+ imports (inline edit, toggle completion):
-//import model.Task               // When Task becomes separate model class
+// import model.Task               // When Task becomes separate model class
 // import model.ValidationResult   // For validation errors
 // import renderTemplate            // Extension function from Main.kt
 // import isHtmxRequest             // Extension function from Main.kt
@@ -44,6 +44,7 @@ import java.io.StringWriter
  * - Week 7: Add toggle, inline edit
  * - Week 8: Add pagination, search
  */
+
 fun Route.taskRoutes() {
     val pebble =
         PebbleEngine
@@ -53,10 +54,12 @@ fun Route.taskRoutes() {
                     prefix = "templates/"
                 },
             ).build()
+
     /**
      * Helper: Check if request is from HTMX
      */
     fun ApplicationCall.isHtmx(): Boolean = request.headers["HX-Request"]?.equals("true", ignoreCase = true) == true
+
     /**
      * GET /tasks - List all tasks
      * Returns full page (no HTMX differentiation in Week 6)
@@ -72,7 +75,6 @@ fun Route.taskRoutes() {
         template.evaluate(writer, model)
         call.respondText(writer.toString(), ContentType.Text.Html)
     }
-
     /**
      * POST /tasks - Add new task
      * Dual-mode: HTMX fragment or PRG redirect
@@ -101,11 +103,16 @@ fun Route.taskRoutes() {
             // Return HTML fragment for new task
             val fragment = """<li id="task-${task.id}">
                 <span>${task.title}</span>
+                <form action="/tasks/${task.id}/edit" method="get" style="display: inline;"
+                        hx-get="/tasks/${task.id}/edit"
+                        hx-target="#task-${task.id}"
+                        hx-swap="outerHTML">
                 <form action="/tasks/${task.id}/delete" method="post" style="display: inline;"
                       hx-post="/tasks/${task.id}/delete"
                       hx-target="#task-${task.id}"
                       hx-swap="outerHTML">
-                  <button type="submit" aria-label="Delete task: ${task.title}">Delete</button>
+                <button type="submit" aria-label="Edit task: ${task.title}">Edit</button>
+                <button type="submit" aria-label="Delete task: ${task.title}">Delete</button>
                 </form>
             </li>"""
 
@@ -144,7 +151,6 @@ fun Route.taskRoutes() {
     // - GET /tasks/{id}/edit - Show edit form (dual-mode)
     // - POST /tasks/{id}/edit - Save edits with validation (dual-mode)
     // - GET /tasks/{id}/view - Cancel edit (HTMX only)
-
     get("/tasks/{id}/edit") {
         val id = call.parameters["id"]?.toIntOrNull() ?: return@get call.respond(HttpStatusCode.NotFound)
         val task = TaskRepository.find(id) ?: return@get call.respond(HttpStatusCode.NotFound)

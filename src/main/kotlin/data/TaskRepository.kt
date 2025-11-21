@@ -91,7 +91,6 @@ object TaskRepository {
     // Follow instructions in mdbook to implement:
     // - fun find(id: Int): Task?
     // - fun update(task: Task)
-
     fun find(id: Int): Task? = tasks.find { it.id == id }
 
     fun update(task: Task) {
