@@ -1,0 +1,3 @@
+id,version,test,issue,fixed
+1,HTML & No-JS,Empty filter results,No appropriate message given,False
+2,HTML & No-JS,Adding task while filtered,Filter gets reset so can't tell if the task is added to filter,False

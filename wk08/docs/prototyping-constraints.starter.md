@@ -19,3 +19,13 @@
 - Template duplication between full page and fragments.
 - Focus management after deletes (ensure next focusable target).
 
+## Accessibility verification
+
+### Keyboard testing
+- Tab navigation was a success, no issues with order or anything!
+
+### Screen reader testing
+- Not completed yet (NVDA is buggy at the moment)
+
+### No-JS parity
+- Most features work without Javascript, see backlog (most issues on No JS also don't work with HTML)

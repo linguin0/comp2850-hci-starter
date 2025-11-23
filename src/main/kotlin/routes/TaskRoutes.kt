@@ -7,7 +7,10 @@ import io.ktor.server.application.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
+import io.ktor.server.sessions.sessions
+import io.ktor.utils.io.writer
 import io.pebbletemplates.pebble.PebbleEngine
+import renderTemplate
 import java.io.StringWriter
 
 /**
@@ -61,26 +64,56 @@ fun Route.taskRoutes(store: TaskStore = TaskStore()) {
      */
     fun ApplicationCall.isHtmx(): Boolean = request.headers["HX-Request"]?.equals("true", ignoreCase = true) == true
 
-    /**
-     * GET /tasks - List all tasks
-     * Returns full page (no HTMX differentiation in Week 6)
-     */
-    get("/tasks") {
-        val model =
-            mapOf(
-                "title" to "Tasks",
-                "tasks" to store.getAll(),
-            )
-        val template = pebble.getTemplate("tasks/index.peb")
-        val writer = StringWriter()
-        template.evaluate(writer, model)
-        call.respondText(writer.toString(), ContentType.Text.Html)
+    // Fragment endpoint for HTMX updates
+    get("/tasks/fragment") {
+        val q = call.request.queryParameters["q"]?.trim().orEmpty()
+        val page = call.request.queryParameters["page"]?.toIntOrNull() ?: 1
+        val pageData = store.search(q, page, 10)
+
+        val list = call.renderTemplate("tasks/_list.peb", mapOf("page" to pageData, "q" to q))
+        val pager = call.renderTemplate("tasks/_pager.peb", mapOf("page" to pageData, "q" to q))
+        val status = """<div id="status" hx-swap-oob="true">Updated: showing ${pageData.items.size} of ${pageData.total} tasks</div>"""
+
+        call.respondText(list + pager + status, ContentType.Text.Html)
     }
+
+// Update existing GET /tasks to use pagination
+    get("/tasks") {
+        val q = call.request.queryParameters["q"]?.trim().orEmpty()
+        val page = call.request.queryParameters["page"]?.toIntOrNull() ?: 1
+        val pageData = store.search(q, page, 10)
+
+        val html = call.renderTemplate("tasks/index.peb", mapOf(
+            "page" to pageData,
+            "q" to q,
+            "title" to "Tasks"
+        ))
+        call.respondText(html, ContentType.Text.Html)
+    }
+
+    /**
+     * POST /tasks/{id}/delete - Delete task
+     * Dual-mode: HTMX empty response or PRG redirect
+     */
+    delete("/tasks/{id}") {
+        val id = call.parameters["id"] ?: return@delete
+
+        if (call.isHtmx()) {
+            val message = if (store.delete(id)) "Task deleted." else "Could not delete task."
+            val status = """<div id="status" hx-swap-oob="true">$message</div>"""
+            // Return empty content to trigger outerHTML swap (removes the <li>)
+            return@delete call.respondText(status, ContentType.Text.Html)
+        }
+        store.delete(id)
+        // No-JS: POST-Redirect-GET pattern (303 See Other)
+        call.response.headers.append("Location", "/tasks")
+        call.respond(HttpStatusCode.SeeOther)
+    }
+
     /**
      * POST /tasks - Add new task
      * Dual-mode: HTMX fragment or PRG redirect
      */
-
     post("/tasks") {
         val title = call.receiveParameters()["title"] ?: ""
         // new
@@ -123,25 +156,6 @@ fun Route.taskRoutes(store: TaskStore = TaskStore()) {
             return@post call.respondText(fragment + status, ContentType.Text.Html, HttpStatusCode.Created)
         }
 
-        // No-JS: POST-Redirect-GET pattern (303 See Other)
-        call.response.headers.append("Location", "/tasks")
-        call.respond(HttpStatusCode.SeeOther)
-    }
-
-    /**
-     * POST /tasks/{id}/delete - Delete task
-     * Dual-mode: HTMX empty response or PRG redirect
-     */
-    post("/tasks/{id}/delete") {
-        val id = call.parameters["id"] ?: return@post
-
-        if (call.isHtmx()) {
-            val message = if (store.delete(id)) "Task deleted." else "Could not delete task."
-            val status = """<div id="status" hx-swap-oob="true">$message</div>"""
-            // Return empty content to trigger outerHTML swap (removes the <li>)
-            return@post call.respondText(status, ContentType.Text.Html)
-        }
-        store.delete(id)
         // No-JS: POST-Redirect-GET pattern (303 See Other)
         call.response.headers.append("Location", "/tasks")
         call.respond(HttpStatusCode.SeeOther)

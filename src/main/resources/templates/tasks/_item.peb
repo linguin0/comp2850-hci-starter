@@ -8,10 +8,11 @@
     <button type="submit" aria-label="Edit task: {{ task.title }}">Edit</button>
   </form>
 
-  <form action="/tasks/{{ task.id }}/delete" method="post" style="display: inline;"
-        hx-post="/tasks/{{ task.id }}/delete"
+  <form action="/tasks/{{ task.id }}" method="delete" style="display: inline;"
+        hx-delete="/tasks/{{ task.id }}"
         hx-target="#task-{{ task.id }}"
-        hx-swap="outerHTML">
+        hx-swap="outerHTML"
+        hx-confirm="Delete the task '{{ task.title }}'?">
     <button type="submit" aria-label="Delete task: {{ task.title }}">Delete</button>
   </form>
 </li>
