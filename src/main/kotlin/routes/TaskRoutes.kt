@@ -1,6 +1,7 @@
 package routes
 
-import data.TaskRepository
+import model.Task
+import storage.TaskStore
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.request.*
@@ -45,7 +46,7 @@ import java.io.StringWriter
  * - Week 8: Add pagination, search
  */
 
-fun Route.taskRoutes() {
+fun Route.taskRoutes(store: TaskStore = TaskStore()) {
     val pebble =
         PebbleEngine
             .Builder()
@@ -68,7 +69,7 @@ fun Route.taskRoutes() {
         val model =
             mapOf(
                 "title" to "Tasks",
-                "tasks" to TaskRepository.all(),
+                "tasks" to store.getAll(),
             )
         val template = pebble.getTemplate("tasks/index.peb")
         val writer = StringWriter()
@@ -81,7 +82,10 @@ fun Route.taskRoutes() {
      */
 
     post("/tasks") {
-        val title = call.receiveParameters()["title"].orEmpty().trim()
+        val title = call.receiveParameters()["title"] ?: ""
+        // new
+        val task = Task(title = title)
+        store.add(task)
 
         if (title.isBlank()) {
             // Validation error handling
@@ -96,8 +100,6 @@ fun Route.taskRoutes() {
                 return@post call.respond(HttpStatusCode.SeeOther)
             }
         }
-
-        val task = TaskRepository.add(title)
 
         if (call.isHtmx()) {
             // Return HTML fragment for new task
@@ -131,16 +133,15 @@ fun Route.taskRoutes() {
      * Dual-mode: HTMX empty response or PRG redirect
      */
     post("/tasks/{id}/delete") {
-        val id = call.parameters["id"]?.toIntOrNull()
-        val removed = id?.let { TaskRepository.delete(it) } ?: false
+        val id = call.parameters["id"] ?: return@post
 
         if (call.isHtmx()) {
-            val message = if (removed) "Task deleted." else "Could not delete task."
+            val message = if (store.delete(id)) "Task deleted." else "Could not delete task."
             val status = """<div id="status" hx-swap-oob="true">$message</div>"""
             // Return empty content to trigger outerHTML swap (removes the <li>)
             return@post call.respondText(status, ContentType.Text.Html)
         }
-
+        store.delete(id)
         // No-JS: POST-Redirect-GET pattern (303 See Other)
         call.response.headers.append("Location", "/tasks")
         call.respond(HttpStatusCode.SeeOther)
@@ -152,8 +153,8 @@ fun Route.taskRoutes() {
     // - POST /tasks/{id}/edit - Save edits with validation (dual-mode)
     // - GET /tasks/{id}/view - Cancel edit (HTMX only)
     get("/tasks/{id}/edit") {
-        val id = call.parameters["id"]?.toIntOrNull() ?: return@get call.respond(HttpStatusCode.NotFound)
-        val task = TaskRepository.find(id) ?: return@get call.respond(HttpStatusCode.NotFound)
+        val id = call.parameters["id"] ?: return@get call.respond(HttpStatusCode.NotFound)
+        val task = store.getById(id) ?: return@get call.respond(HttpStatusCode.NotFound)
         val errorParam = call.request.queryParameters["error"]
 
         val errorMessage = when (errorParam) {
@@ -170,7 +171,7 @@ fun Route.taskRoutes() {
         } else {
             val model = mapOf(
                 "title" to "Tasks",
-                "tasks" to TaskRepository.all(),
+                "tasks" to store.getAll(),
                 "editingId" to id,
                 "errorMessage" to errorMessage
             )
@@ -181,8 +182,8 @@ fun Route.taskRoutes() {
         }
     }
     post("/tasks/{id}/edit") {
-        val id = call.parameters["id"]?.toIntOrNull() ?: return@post call.respond(HttpStatusCode.NotFound)
-        val task = TaskRepository.find(id) ?: return@post call.respond(HttpStatusCode.NotFound)
+        val id = call.parameters["id"] ?: return@post call.respond(HttpStatusCode.NotFound)
+        val task = store.getById(id) ?: return@post call.respond(HttpStatusCode.NotFound)
 
         val newTitle = call.receiveParameters()["title"].orEmpty().trim()
 
@@ -206,7 +207,7 @@ fun Route.taskRoutes() {
 
         // Update task
         task.title = newTitle
-        TaskRepository.update(task)
+        store.update(task)
 
         if (call.isHtmx()) {
             // HTMX path: return view fragment + OOB status
@@ -224,8 +225,8 @@ fun Route.taskRoutes() {
     }
 
     get("/tasks/{id}/view") {
-        val id = call.parameters["id"]?.toIntOrNull() ?: return@get call.respond(HttpStatusCode.NotFound)
-        val task = TaskRepository.find(id) ?: return@get call.respond(HttpStatusCode.NotFound)
+        val id = call.parameters["id"] ?: return@get call.respond(HttpStatusCode.NotFound)
+        val task = store.getById(id) ?: return@get call.respond(HttpStatusCode.NotFound)
 
         // HTMX path only (cancel is just a link to /tasks in no-JS)
         val template = pebble.getTemplate("/tasks/_item.peb")
